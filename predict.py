@@ -130,7 +130,7 @@ class Predictor(BasePredictor):
         image_path: Path = Input(description="Input Image"),
         foreground_ratio: float = Input(default=1.0, ge=0.5, le=1.0),
         back_groud_color: str = Input(default="#7F7F7F"),
-        scheduler: str = Input(choices=["Alpha as mask", "Auto Remove background"], default="Auto Remove background"),
+        background_choice: str = Input(choices=["Alpha as mask", "Auto Remove background"], default="Auto Remove background"),
         seed: int = Input(default=1234),
         steps: int = Input(default=30),
         scale: float = Input(default=5.5),
@@ -138,4 +138,4 @@ class Predictor(BasePredictor):
         image = Image.open(image_path)
         processed_image = preprocess_image(image, background_choice, foreground_ratio, back_groud_color)
         output_model = gen_image(processed_image, seed, scale, steps, self.pipeline, self.model)
-        return Path(output_model)
+        return Path(output_model[2])
